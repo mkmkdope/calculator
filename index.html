@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Calculator</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+        padding: 36px 32px 28px 32px;
+        max-width: 420px;
+        width: 100%;
+        margin: 40px 0;
+      }
+      h1 {
+        text-align: center;
+        color: #2d3a4b;
+        margin-bottom: 18px;
+        font-size: 2.1rem;
+        letter-spacing: 1px;
+      }
+      h2 {
+        color: #8332a8;
+        border-bottom: 1px solid #e3e3e3;
+        padding-bottom: 4px;
+        margin-top: 24px;
+        margin-bottom: 14px;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+      .input-group {
+        margin-bottom: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      label {
+        font-size: 1rem;
+        color: #2d3a4b;
+        margin-bottom: 2px;
+        font-weight: 500;
+      }
+      input[type="number"] {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1.5px solid #bfc9d1;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border 0.2s;
+        background: #f7fafc;
+        box-sizing: border-box;
+      }
+      input[type="number"]:focus {
+        border-color: #4a90e2;
+        outline: none;
+        background: #fff;
+      }
+      small {
+        color: #7b8a99;
+        font-size: 0.92em;
+        margin-top: 2px;
+      }
+      button {
+        width: 100%;
+        padding: 12px 0;
+        background: linear-gradient(90deg, #4a90e2 0%, #357ab7 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.08rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 10px;
+        box-shadow: 0 2px 8px rgba(74, 144, 226, 0.08);
+        transition: background 0.2s, transform 0.1s;
+      }
+      button:hover {
+        background: linear-gradient(90deg, #357ab7 0%, #4a90e2 100%);
+        transform: translateY(-2px) scale(1.02);
+      }
+      .result {
+        margin-top: 26px;
+        padding: 18px 16px 12px 16px;
+        background: #f4f8fb;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(74, 144, 226, 0.06);
+        color: #2d3a4b;
+      }
+      .status-barred {
+        color: #fff;
+        background: #ff4444;
+        padding: 8px 18px;
+        border-radius: 6px;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 8px;
+        letter-spacing: 1px;
+        font-size: 1.05em;
+        box-shadow: 0 2px 8px rgba(255, 68, 68, 0.08);
+      }
+      .status-safe {
+        color: #fff;
+        background: #00c851;
+        padding: 8px 18px;
+        border-radius: 6px;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 8px;
+        letter-spacing: 1px;
+        font-size: 1.05em;
+        box-shadow: 0 2px 8px rgba(0, 200, 81, 0.08);
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 18px 6vw 16px 6vw;
+          max-width: 98vw;
+        }
+        h1 {
+          font-size: 1.3rem;
+        }
+      }
+      .footer {
+        margin-top: 32px;
+        text-align: center;
+        color: #8a8fa3;
+        font-size: 0.98em;
+        letter-spacing: 0.5px;
+        padding-top: 18px;
+        border-top: 1px solid #ececec;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Attendance Calculator</h1>
+      <h2>Subject Details</h2>
+      <div class="input-group">
+        <label for="weeks">Weeks number:</label>
+        <input type="number" id="weeks" min="1" value="12" />
+        <small>TARUMT's Long Sem 12 weeks, Short Sem 5 weeks.</small>
+      </div>
+
+      <!-- <p>
+        <strong>Barring</strong>
+        <br />
+
+        Students can view their barred course(s) via Student Intranet and email
+        notification will be sent to inform them on their barring status as
+        follows:
+        <ul>
+          <li>Monday of Week 13 in Long Semester</li>
+          <li>Monday of Week 6 in Short Semester</li>
+        </ul>
+      </p> -->
+
+      <div class="input-group">
+        <label for="lecture">Lecture hours:</label>
+        <input type="number" id="lecture" min="0" step="0.5" value="2" />
+      </div>
+
+      <div class="input-group">
+        <label for="tutorial">Tutorial hours:</label>
+        <input type="number" id="tutorial" min="0" step="0.5" value="1" />
+      </div>
+
+      <div class="input-group">
+        <label for="practical">Practical hours:</label>
+        <input type="number" id="practical" min="0" step="0.5" value="1" />
+      </div>
+
+      <div class="input-group">
+        <label for="attendRate">Minimum attendance rate (%):</label>
+        <input type="number" id="attendRate" min="1" max="100" value="80" />
+        <small>TARUMT's minimum requirement of 80% attendance</small>
+      </div>
+
+      <h2>Current Attendance</h2>
+      <div class="input-group">
+        <label for="present">Present hours:</label>
+        <input type="number" id="present" min="0" step="0.5" value="1" />
+      </div>
+
+      <div class="input-group">
+        <label for="absent">Absent hours:</label>
+        <input type="number" id="absent" min="0" step="0.5" value="0" />
+      </div>
+
+      <button onclick="calculateAttendance()">Calculate</button>
+
+      <div id="result" class="result" style="display: none">
+        <h2>Results</h2>
+        <p id="currentPercentage"></p>
+        <p id="hoursBeforeBarred"></p>
+        <p id="status"></p>
+      </div>
+      <footer class="footer">Developed by Yap Ming Kang, TARUMT 2025</footer>
+    </div>
+
+    <script>
+      function calculateAttendance() {
+        // Get input values
+        const weeks = parseFloat(document.getElementById("weeks").value);
+        const lecture = parseFloat(document.getElementById("lecture").value);
+        const tutorial = parseFloat(document.getElementById("tutorial").value);
+        const practical = parseFloat(
+          document.getElementById("practical").value
+        );
+        const attendRate = parseFloat(
+          document.getElementById("attendRate").value
+        );
+        const present = parseFloat(document.getElementById("present").value);
+        const absent = parseFloat(document.getElementById("absent").value);
+
+        // Perform calculations
+        const totalHrs = weeks * (lecture + tutorial + practical);
+        const attendNeeded = (attendRate / 100) * totalHrs;
+        const currentRate = (present / (present + absent)) * 100;
+        const pontengHrs = totalHrs - attendNeeded;
+        const hoursBeforeBarred = pontengHrs - absent;
+
+        // Display results
+        document.getElementById(
+          "currentPercentage"
+        ).innerHTML = `<strong>Current Percentage:</strong> ${currentRate.toFixed(
+          2
+        )}%`;
+
+        document.getElementById(
+          "hoursBeforeBarred"
+        ).innerHTML = `<strong>Hours absent before barred:</strong> ${hoursBeforeBarred.toFixed(
+          2
+        )} hours`;
+
+        const statusElement = document.getElementById("status");
+        if (hoursBeforeBarred < 0) {
+          statusElement.innerHTML = `<span class="status-barred">Status: BARRED</span>`;
+        } else {
+          //statusElement.innerHTML = `<span class="status-safe">Status: SAFE</span>`; //displaying 'safe' might mislead user
+          statusElement.innerHTML = `<span>🤓</span>`;
+        }
+
+        // Show result div
+        document.getElementById("result").style.display = "block";
+      }
+    </script>
+  </body>
+</html>

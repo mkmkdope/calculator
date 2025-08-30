@@ -5,99 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Attendance Calculator</title>
     <style>
-      body {
-        font-family: "Segoe UI", "Roboto", Arial, sans-serif;
-        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-        min-height: 100vh;
+      * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
+      
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
       .container {
         background: #fff;
-        border-radius: 18px;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-        padding: 36px 32px 28px 32px;
-        max-width: 420px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        padding: 30px;
+        max-width: 800px;
         width: 100%;
-        margin: 40px 0;
       }
+      
       h1 {
         text-align: center;
         color: #2d3a4b;
-        margin-bottom: 18px;
-        font-size: 2.1rem;
-        letter-spacing: 1px;
+        margin-bottom: 20px;
+        font-size: 2.2rem;
       }
+      
       h2 {
-        color: #8332a8;
-        border-bottom: 1px solid #e3e3e3;
-        padding-bottom: 4px;
-        margin-top: 24px;
-        margin-bottom: 14px;
-        font-size: 1.1rem;
-        font-weight: 600;
+        color: #5a2d8a;
+        border-bottom: 2px solid #e3e3e3;
+        padding-bottom: 8px;
+        margin-top: 25px;
+        margin-bottom: 15px;
       }
+      
+      .input-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      
+      .class-type {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      
+      .class-type h3 {
+        color: #5a2d8a;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      
       .input-group {
-        margin-bottom: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+        margin-bottom: 12px;
       }
-      label {
-        font-size: 1rem;
-        color: #2d3a4b;
-        margin-bottom: 2px;
+      
+      .input-group label {
+        display: block;
         font-weight: 500;
+        margin-bottom: 5px;
+        color: #2d3a4b;
       }
-      input[type="number"] {
+      
+      .input-group input {
         width: 100%;
-        padding: 8px 10px;
-        border: 1.5px solid #bfc9d1;
+        padding: 10px;
+        border: 1px solid #ccc;
         border-radius: 6px;
-        font-size: 1rem;
-        transition: border 0.2s;
-        background: #f7fafc;
-        box-sizing: border-box;
+        font-size: 16px;
       }
-      input[type="number"]:focus {
-        border-color: #4a90e2;
+      
+      .input-group input:focus {
         outline: none;
-        background: #fff;
+        border-color: #5a2d8a;
       }
-      small {
-        color: #7b8a99;
-        font-size: 0.92em;
-        margin-top: 2px;
+      
+      .semester-selector {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
       }
-      button {
+      
+      .semester-option {
+        flex: 1;
+        text-align: center;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      
+      .semester-option:hover {
+        border-color: #5a2d8a;
+      }
+      
+      .semester-option.selected {
+        border-color: #5a2d8a;
+        background-color: #f0e6f9;
+      }
+      
+      .calculate-btn {
+        display: block;
         width: 100%;
-        padding: 12px 0;
-        background: linear-gradient(90deg, #4a90e2 0%, #357ab7 100%);
-        color: #fff;
+        padding: 14px;
+        background: linear-gradient(90deg, #5a2d8a 0%, #7b3fb8 100%);
+        color: white;
         border: none;
-        border-radius: 6px;
-        font-size: 1.08rem;
+        border-radius: 8px;
+        font-size: 18px;
         font-weight: 600;
         cursor: pointer;
-        margin-top: 10px;
-        box-shadow: 0 2px 8px rgba(74, 144, 226, 0.08);
-        transition: background 0.2s, transform 0.1s;
+        margin-top: 20px;
+        transition: transform 0.2s;
       }
-      button:hover {
-        background: linear-gradient(90deg, #357ab7 0%, #4a90e2 100%);
-        transform: translateY(-2px) scale(1.02);
+      
+      .calculate-btn:hover {
+        transform: translateY(-2px);
       }
+      
       .result {
-        margin-top: 26px;
-        padding: 18px 16px 12px 16px;
+        margin-top: 30px;
+        padding: 20px;
         background: #f4f8fb;
         border-radius: 10px;
         box-shadow: 0 2px 8px rgba(74, 144, 226, 0.06);
         color: #2d3a4b;
       }
+      
       .status-barred {
         color: #fff;
         background: #ff4444;
@@ -110,6 +154,7 @@
         font-size: 1.05em;
         box-shadow: 0 2px 8px rgba(255, 68, 68, 0.08);
       }
+      
       .status-safe {
         color: #fff;
         background: #00c851;
@@ -122,82 +167,108 @@
         font-size: 1.05em;
         box-shadow: 0 2px 8px rgba(0, 200, 81, 0.08);
       }
+      
       @media (max-width: 600px) {
         .container {
-          padding: 18px 6vw 16px 6vw;
-          max-width: 98vw;
+          padding: 20px 15px;
         }
-        h1 {
-          font-size: 1.3rem;
+        
+        .input-section {
+          grid-template-columns: 1fr;
         }
-      }
-      .footer {
-        margin-top: 32px;
-        text-align: center;
-        color: #8a8fa3;
-        font-size: 0.98em;
-        letter-spacing: 0.5px;
-        padding-top: 18px;
-        border-top: 1px solid #ececec;
+        
+        .semester-selector {
+          flex-direction: column;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>Attendance Calculator</h1>
-      <h2>Subject Details</h2>
-      <div class="input-group">
-        <label for="weeks">Weeks number:</label>
-        <input type="number" id="weeks" min="1" value="12" />
-        <small>TARUMT's Long Sem 12 weeks, Short Sem 5 weeks.</small>
+      
+      <h2>Subject Details (Hours)</h2>
+      <div class="semester-selector">
+        <div class="semester-option selected" onclick="selectSemester(this, 12)">
+          Long Semester (12 weeks)
+        </div>
+        <div class="semester-option" onclick="selectSemester(this, 5)">
+          Short Semester (5 weeks)
+        </div>
       </div>
-
-      <!-- <p>
-        <strong>Barring</strong>
-        <br />
-
-        Students can view their barred course(s) via Student Intranet and email
-        notification will be sent to inform them on their barring status as
-        follows:
-        <ul>
-          <li>Monday of Week 13 in Long Semester</li>
-          <li>Monday of Week 6 in Short Semester</li>
-        </ul>
-      </p> -->
-
+      
       <div class="input-group">
-        <label for="lecture">Lecture hours:</label>
+        <label for="lecture">Lecture hours per week:</label>
         <input type="number" id="lecture" min="0" step="0.5" value="2" />
       </div>
 
       <div class="input-group">
-        <label for="tutorial">Tutorial hours:</label>
+        <label for="tutorial">Tutorial hours per week:</label>
         <input type="number" id="tutorial" min="0" step="0.5" value="1" />
       </div>
 
       <div class="input-group">
-        <label for="practical">Practical hours:</label>
+        <label for="practical">Practical hours per week:</label>
         <input type="number" id="practical" min="0" step="0.5" value="1" />
       </div>
 
-      <div class="input-group">
+      <div class="input-group" style="display: none">
         <label for="attendRate">Minimum attendance rate (%):</label>
         <input type="number" id="attendRate" min="1" max="100" value="80" />
-        <small>TARUMT's minimum requirement of 80% attendance</small>
       </div>
 
-      <h2>Current Attendance</h2>
-      <div class="input-group">
-        <label for="present">Present hours:</label>
-        <input type="number" id="present" min="0" step="0.5" value="1" />
+      <h2>Current Attendance (Class Counts)</h2>
+      <div class="input-section">
+        <div class="class-type">
+          <h3>Lecture</h3>
+          <div class="input-group">
+            <label for="lecture-present">Present classes:</label>
+            <input type="number" id="lecture-present" min="0" value="0" />
+          </div>
+          <div class="input-group">
+            <label for="lecture-absent">Absent classes:</label>
+            <input type="number" id="lecture-absent" min="0" value="0" />
+          </div>
+          <div class="input-group">
+            <label for="lecture-leave">Leave classes:</label>
+            <input type="number" id="lecture-leave" min="0" value="0" />
+          </div>
+        </div>
+        
+        <div class="class-type">
+          <h3>Tutorial</h3>
+          <div class="input-group">
+            <label for="tutorial-present">Present classes:</label>
+            <input type="number" id="tutorial-present" min="0" value="0" />
+          </div>
+          <div class="input-group">
+            <label for="tutorial-absent">Absent classes:</label>
+            <input type="number" id="tutorial-absent" min="0" value="0" />
+          </div>
+          <div class="input-group">
+            <label for="tutorial-leave">Leave classes:</label>
+            <input type="number" id="tutorial-leave" min="0" value="0" />
+          </div>
+        </div>
+        
+        <div class="class-type">
+          <h3>Practical</h3>
+          <div class="input-group">
+            <label for="practical-present">Present classes:</label>
+            <input type="number" id="practical-present" min="0" value="0" />
+          </div>
+          <div class="input-group">
+            <label for="practical-absent">Absent classes:</label>
+            <input type="number" id="practical-absent" min="0" value="0" />
+          </div>
+          <div class="input-group">
+            <label for="practical-leave">Leave classes:</label>
+            <input type="number" id="practical-leave" min="0" value="0" />
+          </div>
+        </div>
       </div>
 
-      <div class="input-group">
-        <label for="absent">Absent hours:</label>
-        <input type="number" id="absent" min="0" step="0.5" value="0" />
-      </div>
-
-      <button onclick="calculateAttendance()">Calculate</button>
+      <button class="calculate-btn" onclick="calculateAttendance()">Calculate Attendance</button>
 
       <div id="result" class="result" style="display: none">
         <h2>Results</h2>
@@ -205,37 +276,79 @@
         <p id="hoursBeforeBarred"></p>
         <p id="status"></p>
       </div>
-      <footer class="footer">Developed by Yap Ming Kang, TARUMT 2025</footer>
     </div>
 
     <script>
+      let selectedWeeks = 12;
+      
+      function selectSemester(element, weeks) {
+        document.querySelectorAll('.semester-option').forEach(opt => {
+          opt.classList.remove('selected');
+        });
+        element.classList.add('selected');
+        selectedWeeks = weeks;
+      }
+      
       function calculateAttendance() {
         // Get input values
-        const weeks = parseFloat(document.getElementById("weeks").value);
-        const lecture = parseFloat(document.getElementById("lecture").value);
-        const tutorial = parseFloat(document.getElementById("tutorial").value);
-        const practical = parseFloat(
-          document.getElementById("practical").value
-        );
-        const attendRate = parseFloat(
-          document.getElementById("attendRate").value
-        );
-        const present = parseFloat(document.getElementById("present").value);
-        const absent = parseFloat(document.getElementById("absent").value);
+        const lectureHrs = parseFloat(document.getElementById("lecture").value);
+        const tutorialHrs = parseFloat(document.getElementById("tutorial").value);
+        const practicalHrs = parseFloat(document.getElementById("practical").value);
+        const attendRate = parseFloat(document.getElementById("attendRate").value);
+
+        // Get attendance values for each class type (class counts)
+        const lecturePresent = parseFloat(document.getElementById("lecture-present").value) || 0;
+        const lectureAbsent = parseFloat(document.getElementById("lecture-absent").value) || 0;
+        const lectureLeave = parseFloat(document.getElementById("lecture-leave").value) || 0;
+        
+        const tutorialPresent = parseFloat(document.getElementById("tutorial-present").value) || 0;
+        const tutorialAbsent = parseFloat(document.getElementById("tutorial-absent").value) || 0;
+        const tutorialLeave = parseFloat(document.getElementById("tutorial-leave").value) || 0;
+        
+        const practicalPresent = parseFloat(document.getElementById("practical-present").value) || 0;
+        const practicalAbsent = parseFloat(document.getElementById("practical-absent").value) || 0;
+        const practicalLeave = parseFloat(document.getElementById("practical-leave").value) || 0;
+
+        // Calculate total hours for each class type
+        const totalLectureHours = selectedWeeks * lectureHrs;
+        const totalTutorialHours = selectedWeeks * tutorialHrs;
+        const totalPracticalHours = selectedWeeks * practicalHrs;
+        
+        // Calculate attended hours for each class type
+        const lectureAttendedHours = (lecturePresent + lectureLeave) * lectureHrs;
+        const tutorialAttendedHours = (tutorialPresent + tutorialLeave) * tutorialHrs;
+        const practicalAttendedHours = (practicalPresent + practicalLeave) * practicalHrs;
+        
+        // Calculate absent hours for each class type
+        const lectureAbsentHours = lectureAbsent * lectureHrs;
+        const tutorialAbsentHours = tutorialAbsent * tutorialHrs;
+        const practicalAbsentHours = practicalAbsent * practicalHrs;
+
+        // Calculate totals
+        const totalHours = totalLectureHours + totalTutorialHours + totalPracticalHours;
+        const totalAttendedHours = lectureAttendedHours + tutorialAttendedHours + practicalAttendedHours;
+        const totalAbsentHours = lectureAbsentHours + tutorialAbsentHours + practicalAbsentHours;
+        
+        // Count total classes
+        const totalClasses = (lecturePresent + lectureAbsent + lectureLeave) + 
+                            (tutorialPresent + tutorialAbsent + tutorialLeave) + 
+                            (practicalPresent + practicalAbsent + practicalLeave);
 
         // Perform calculations
-        const totalHrs = weeks * (lecture + tutorial + practical);
-        const attendNeeded = (attendRate / 100) * totalHrs;
-        const currentRate = (present / (present + absent)) * 100;
-        const pontengHrs = totalHrs - attendNeeded;
-        const hoursBeforeBarred = pontengHrs - absent;
+        const attendNeeded = (attendRate / 100) * totalHours;
+        const currentRate = (totalAttendedHours / (totalAttendedHours + totalAbsentHours)) * 100;
+        const pontengHrs = totalHours - attendNeeded;
+        const hoursBeforeBarred = pontengHrs - totalAbsentHours;
 
         // Display results
         document.getElementById(
           "currentPercentage"
         ).innerHTML = `<strong>Current Percentage:</strong> ${currentRate.toFixed(
           2
-        )}%`;
+        )}%<br>
+        <small>Present: ${lecturePresent + tutorialPresent + practicalPresent} classes, 
+        Absent: ${lectureAbsent + tutorialAbsent + practicalAbsent} classes, 
+        Leave: ${lectureLeave + tutorialLeave + practicalLeave} classes</small>`;
 
         document.getElementById(
           "hoursBeforeBarred"
@@ -247,8 +360,7 @@
         if (hoursBeforeBarred < 0) {
           statusElement.innerHTML = `<span class="status-barred">Status: BARRED</span>`;
         } else {
-          //statusElement.innerHTML = `<span class="status-safe">Status: SAFE</span>`; //displaying 'safe' might mislead user
-          statusElement.innerHTML = `<span>🤓</span>`;
+          statusElement.innerHTML = `<span class="status-safe">Status: Good 🤓</span>`;
         }
 
         // Show result div

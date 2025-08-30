@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Attendance Calculator</title>
     <style>
+      :root {
+        /* Light theme */
+        --bg-color-light: #f5f6fa;
+        --text-color-light: #2d3a4b;
+        --container-bg-light: #ffffff;
+        --input-bg-light: #f7fafc;
+        --result-bg-light: #f4f8fb;
+
+        /* Dark theme */
+        --bg-color-dark: #121212;
+        --text-color-dark: #e0e0e0;
+        --container-bg-dark: #1e1e1e;
+        --input-bg-dark: #2a2a2a;
+        --result-bg-dark: #1c1c1c;
+      }
+
       body {
         font-family: "Segoe UI", "Roboto", Arial, sans-serif;
         min-height: 100vh;
@@ -13,32 +29,71 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: background 0.3s, color 0.3s;
       }
+
+      /* Dark Mode */
+      body.dark {
+        background: var(--bg-color-dark);
+        color: var(--text-color-dark);
+      }
+      body.dark .container {
+        background: var(--container-bg-dark);
+      }
+      body.dark input[type="number"] {
+        background: var(--input-bg-dark);
+        color: var(--text-color-dark);
+        border: 1.5px solid #444;
+      }
+      body.dark .result {
+        background: var(--result-bg-dark);
+        color: var(--text-color-dark);
+      }
+
+      /* Light Mode */
+      body.light {
+        background: var(--bg-color-light);
+        color: var(--text-color-light);
+      }
+      body.light .container {
+        background: var(--container-bg-light);
+      }
+      body.light input[type="number"] {
+        background: var(--input-bg-light);
+        color: var(--text-color-light);
+        border: 1.5px solid #bfc9d1;
+      }
+      body.light .result {
+        background: var(--result-bg-light);
+        color: var(--text-color-light);
+      }
+
       .container {
-        background: #fff;
         border-radius: 18px;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
         padding: 36px 32px 28px 32px;
         max-width: 420px;
         width: 100%;
         margin: 40px 0;
+        transition: background 0.3s, color 0.3s;
       }
+
       h1 {
         text-align: center;
-        color: #2d3a4b;
         margin-bottom: 18px;
         font-size: 2.1rem;
         letter-spacing: 1px;
       }
       h2 {
         color: #4a90e2;
-        border-bottom: 1px solid #e3e3e3;
+        border-bottom: 1px solid #5555;
         padding-bottom: 4px;
         margin-top: 24px;
         margin-bottom: 14px;
         font-size: 1.1rem;
         font-weight: 600;
       }
+
       .input-group {
         margin-bottom: 18px;
         display: flex;
@@ -47,18 +102,15 @@
       }
       label {
         font-size: 1rem;
-        color: #2d3a4b;
         margin-bottom: 2px;
         font-weight: 500;
       }
       input[type="number"] {
         width: 100%;
         padding: 8px 10px;
-        border: 1.5px solid #bfc9d1;
         border-radius: 6px;
         font-size: 1rem;
-        transition: border 0.2s;
-        background: #f7fafc;
+        transition: border 0.2s, background 0.2s, color 0.2s;
         box-sizing: border-box;
       }
       input[type="number"]:focus {
@@ -66,6 +118,7 @@
         outline: none;
         background: #fff;
       }
+
       small {
         color: #7b8a99;
         font-size: 0.92em;
@@ -89,14 +142,38 @@
         background: linear-gradient(90deg, #357ab7 0%, #4a90e2 100%);
         transform: translateY(-2px) scale(1.02);
       }
+
+      /* Sticky toggle button */
+      .theme-toggle {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #444;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: background 0.3s, transform 0.2s;
+      }
+      .theme-toggle:hover {
+        background: #666;
+        transform: scale(1.1);
+      }
+
       .result {
         margin-top: 26px;
         padding: 18px 16px 12px 16px;
-        background: #f4f8fb;
         border-radius: 10px;
         box-shadow: 0 2px 8px rgba(74, 144, 226, 0.06);
-        color: #2d3a4b;
       }
+
       .status-barred {
         color: #fff;
         background: #ff4444;
@@ -107,7 +184,6 @@
         margin-top: 8px;
         letter-spacing: 1px;
         font-size: 1.05em;
-        box-shadow: 0 2px 8px rgba(255, 68, 68, 0.08);
       }
       .status-safe {
         color: #fff;
@@ -119,8 +195,8 @@
         margin-top: 8px;
         letter-spacing: 1px;
         font-size: 1.05em;
-        box-shadow: 0 2px 8px rgba(0, 200, 81, 0.08);
       }
+
       @media (max-width: 600px) {
         .container {
           padding: 18px 6vw 16px 6vw;
@@ -132,7 +208,9 @@
       }
     </style>
   </head>
-  <body>
+  <body class="dark">
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
     <div class="container">
       <h1>Attendance Calculator</h1>
       <h2>Subject Details</h2>
@@ -197,6 +275,19 @@
     </div>
 
     <script>
+      function toggleTheme() {
+        const body = document.body;
+        const button = document.querySelector(".theme-toggle");
+
+        if (body.classList.contains("dark")) {
+          body.classList.replace("dark", "light");
+          button.textContent = "☀️";
+        } else {
+          body.classList.replace("light", "dark");
+          button.textContent = "🌙";
+        }
+      }
+
       function calculateAttendance() {
         // Get input values
         //const weeks = parseFloat(document.getElementById("weeks").value);

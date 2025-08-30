@@ -7,7 +7,6 @@
     <style>
       body {
         font-family: "Segoe UI", "Roboto", Arial, sans-serif;
-        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
         min-height: 100vh;
         margin: 0;
         padding: 0;
@@ -32,7 +31,7 @@
         letter-spacing: 1px;
       }
       h2 {
-        color: #8332a8;
+        color: #4a90e2;
         border-bottom: 1px solid #e3e3e3;
         padding-bottom: 4px;
         margin-top: 24px;
@@ -131,39 +130,30 @@
           font-size: 1.3rem;
         }
       }
-      .footer {
-        margin-top: 32px;
-        text-align: center;
-        color: #8a8fa3;
-        font-size: 0.98em;
-        letter-spacing: 0.5px;
-        padding-top: 18px;
-        border-top: 1px solid #ececec;
-      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>Attendance Calculator</h1>
       <h2>Subject Details</h2>
+
+      <!-- <label for="weeks">Weeks number:</label>
+      <input type="number" id="weeks" min="1" value="12" />
+      <small>Long Sem 12 weeks, Short Sem 5 weeks.</small> -->
+
       <div class="input-group">
-        <label for="weeks">Weeks number:</label>
-        <input type="number" id="weeks" min="1" value="12" />
-        <small>TARUMT's Long Sem 12 weeks, Short Sem 5 weeks.</small>
+        <label>Weeks number:</label>
+        <div style="display: flex; gap: 18px">
+          <label>
+            <input type="radio" name="semester" value="12" checked />
+            Long Sem (12 weeks)
+          </label>
+          <label>
+            <input type="radio" name="semester" value="5" />
+            Short Sem (5 weeks)
+          </label>
+        </div>
       </div>
-
-      <!-- <p>
-        <strong>Barring</strong>
-        <br />
-
-        Students can view their barred course(s) via Student Intranet and email
-        notification will be sent to inform them on their barring status as
-        follows:
-        <ul>
-          <li>Monday of Week 13 in Long Semester</li>
-          <li>Monday of Week 6 in Short Semester</li>
-        </ul>
-      </p> -->
 
       <div class="input-group">
         <label for="lecture">Lecture hours:</label>
@@ -180,10 +170,9 @@
         <input type="number" id="practical" min="0" step="0.5" value="1" />
       </div>
 
-      <div class="input-group">
+      <div class="input-group" style="display: none">
         <label for="attendRate">Minimum attendance rate (%):</label>
         <input type="number" id="attendRate" min="1" max="100" value="80" />
-        <small>TARUMT's minimum requirement of 80% attendance</small>
       </div>
 
       <h2>Current Attendance</h2>
@@ -205,13 +194,15 @@
         <p id="hoursBeforeBarred"></p>
         <p id="status"></p>
       </div>
-      <footer class="footer">Developed by Yap Ming Kang, TARUMT 2025</footer>
     </div>
 
     <script>
       function calculateAttendance() {
         // Get input values
-        const weeks = parseFloat(document.getElementById("weeks").value);
+        //const weeks = parseFloat(document.getElementById("weeks").value);
+        const weeks = parseFloat(
+          document.querySelector('input[name="semester"]:checked').value
+        );
         const lecture = parseFloat(document.getElementById("lecture").value);
         const tutorial = parseFloat(document.getElementById("tutorial").value);
         const practical = parseFloat(
@@ -247,8 +238,7 @@
         if (hoursBeforeBarred < 0) {
           statusElement.innerHTML = `<span class="status-barred">Status: BARRED</span>`;
         } else {
-          //statusElement.innerHTML = `<span class="status-safe">Status: SAFE</span>`; //displaying 'safe' might mislead user
-          statusElement.innerHTML = `<span>🤓</span>`;
+          statusElement.innerHTML = `<span class="status-safe">Status: Good 🤓</span>`;
         }
 
         // Show result div
